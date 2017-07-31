@@ -7,22 +7,12 @@ import sampleFishes from '../sample-fishes';
 import base from '../base';
 
 class App extends React.Component {
-    constructor() {
-        super();
-        this.addFish = this.addFish.bind(this);
-        this.updateFish = this.updateFish.bind(this);
-        this.removeFish = this.removeFish.bind(this);
-        this.loadSamples = this.loadSamples.bind(this);
-        this.addToOrder = this.addToOrder.bind(this);
-        this.removeFromOrder = this.removeFromOrder.bind(this);
-        // Initial state
-        this.state = {
-            fishes: {},
-            order: {},
-        };
-    }
+    state = {
+        fishes: {},
+        order: {},
+    };
 
-    componentWillMount() {
+    componentWillMount = () => {
         // This runs right before the app is rendered
         this.ref = base.syncState(`${this.props.params.storeId}/fishes`,
             {
@@ -39,19 +29,19 @@ class App extends React.Component {
                 order: JSON.parse(localStorageRef),
             });
         }
-    }
+    };
 
-    componentWillUpdate(nextProps, nextState) {
-        console.log('Something changed');
+    componentWillUpdate = (nextProps, nextState) => {
+        console.log('Something changed ti');
         console.log({ nextProps, nextState });
         localStorage.setItem(`order-${this.props.params.storeId}`, JSON.stringify(nextState.order));
-    }
+    };
 
-    componenetWillUnmount() {
+    componenetWillUnmount = () => {
         base.removeBinding(this.ref);
-    }
+    };
 
-    addFish(fish) {
+    addFish = (fish) => {
         const fishes = { ...this.state.fishes };
         // Add in our new fish
         const timeStamp = Date.now();
@@ -59,21 +49,21 @@ class App extends React.Component {
         // Update our state
         // Set state
         this.setState({ fishes })
-    }
+    };
 
-    updateFish(key, updatedFish) {
+    updateFish = (key, updatedFish) => {
         const fishes = { ...this.state.fishes };
         fishes[key] = updatedFish;
         this.setState({ fishes });
-    }
+    };
 
-    removeFish(key) {
+    removeFish = (key) => {
         const fishes = {...this.state.fishes };
         fishes[key] = null;
         this.setState({ fishes });
-    }
+    };
 
-    loadSamples() {
+    loadSamples = () => {
         // const self = this;
         // fetch('https://jsonplaceholder.typicode.com/posts')
         //     .then(response => {
@@ -90,22 +80,23 @@ class App extends React.Component {
         this.setState({
             fishes: sampleFishes,
         });
-    }
-    addToOrder(key) {
+    };
+
+    addToOrder = (key) => {
         // Take a copy of our state
         const order = { ...this.state.order };
         // Update or add new number of fish ordered
         order[key] = order[key] + 1 || 1;
         // Update our state
         this.setState({ order })
-    }
+    };
 
-    removeFromOrder(key) {
+    removeFromOrder = (key) => {
         const order = { ...this.state.order };
         delete order[key];
         this.setState({ order });
-    }
-    render() {
+    };
+    render = () => {
         // console.log(this);
         return (
             <div className="catch-of-the-day">
@@ -134,7 +125,7 @@ class App extends React.Component {
                 />
             </div>
         )
-    }
+    };
 }
 
 App.propTypes = {
